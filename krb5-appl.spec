@@ -7,7 +7,7 @@ Release: %mkrel 1
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
-Group: Applications/Internet
+Group: System/Servers
 # Maybe we should explode from the now-available-to-everybody tarball instead?
 # http://web.mit.edu/kerberos/dist/krb5-appl/1.0/krb5-appl-1.0-signed.tar
 Source0: krb5-appl-%{version}.tar.gz
@@ -55,7 +55,7 @@ and rlogin clients and servers.  While these have been replaced by tools
 such as OpenSSH in most environments, they remain in use in others.
 
 %package servers
-Group: System Environment/Daemons
+Group: System/Servers
 Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
 Requires: xinetd
 Requires(post): /sbin/service, xinetd
@@ -69,7 +69,7 @@ in most environments, they remain in use in others.
 
 %package clients
 Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
-Group: System Environment/Base
+Group: Networking/Remote access
 Obsoletes: telnet-client-krb5
 Obsoletes: ftp-client-krb5
 
