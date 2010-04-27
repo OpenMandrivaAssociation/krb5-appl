@@ -1,10 +1,6 @@
 # For consistency with regular login.
 %global login_pam_service remote
 
-# To handle upgrades from versions where we were bundled with krb5.
-%global krb5_last_bundled 1.8-3
-%global krb5_first_unbundled 1.8-4
-
 Name: krb5-appl
 Version: 1.0
 Release: %mkrel 1
@@ -63,8 +59,8 @@ Group: System Environment/Daemons
 Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
 Requires: xinetd
 Requires(post): /sbin/service, xinetd
-Obsoletes: krb5-workstation-servers < %{krb5_last_bundled}
-Provides: krb5-workstation-servers = %{krb5_first_unbundled}
+Obsoletes: telnet-server-krb5
+Obsoletes: ftp-server-krb5
 
 %description servers
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
@@ -74,8 +70,8 @@ in most environments, they remain in use in others.
 %package clients
 Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
 Group: System Environment/Base
-Obsoletes: krb5-workstation-clients < %{krb5_last_bundled}
-Provides: krb5-workstation-clients = %{krb5_first_unbundled}
+Obsoletes: telnet-client-krb5
+Obsoletes: ftp-client-krb5
 
 %description clients
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
