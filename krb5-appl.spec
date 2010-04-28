@@ -3,7 +3,7 @@
 
 Name: krb5-appl
 Version: 1.0
-Release: %mkrel 2
+Release: %mkrel 3
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
@@ -77,6 +77,8 @@ Obsoletes: telnet-client-krb5
 Obsoletes: ftp-client-krb5
 Provides: telnet-client-krb5
 Provides: ftp-client-krb5
+#gw needed by sshd-monitor:
+Provides: telnet
 
 %description clients
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
