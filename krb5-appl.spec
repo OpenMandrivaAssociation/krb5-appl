@@ -3,7 +3,7 @@
 
 Name: krb5-appl
 Version: 1.0
-Release: %mkrel 4
+Release: %mkrel 5
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
@@ -59,12 +59,15 @@ Group: System/Servers
 Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
 Requires: xinetd
 Requires(post): /sbin/service, xinetd
+# transition with previous package
 Obsoletes: telnet-server-krb5
 Obsoletes: ftp-server-krb5
 Provides:  telnet-server-krb5
 Provides:  ftp-server-krb5
+# multiple alternatives
 Provides:  telnet-server
-
+Conflicts: netkit-telnet-server
+Conflicts: heimdal-telnetd
 
 %description servers
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
@@ -74,11 +77,15 @@ in most environments, they remain in use in others.
 %package clients
 Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
 Group: Networking/Remote access
+# transition with previous package
 Obsoletes: telnet-client-krb5
 Obsoletes: ftp-client-krb5
 Provides:  telnet-client-krb5
 Provides:  ftp-client-krb5
+# multiple alternatives
 Provides:  telnet-client
+Conflicts: netkit-telnet
+Conflicts: heimdal-telnet
 
 %description clients
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
