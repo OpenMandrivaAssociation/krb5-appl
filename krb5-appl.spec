@@ -2,8 +2,8 @@
 %global login_pam_service remote
 
 Name: krb5-appl
-Version: 1.0
-Release: %mkrel 5
+Version: 1.0.1
+Release: %mkrel 1
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
@@ -40,7 +40,7 @@ Patch72: krb5-1.6.3-ftp_fdleak.patch
 Patch73: krb5-1.6.3-ftp_glob_runique.patch
 Patch79: krb5-trunk-ftp_mget_case.patch
 Patch88: krb5-1.7-sizeof.patch
-Patch89: krb5-appl-1.0-largefile.patch
+Patch89: krb5-appl-1.0.1-largefile.patch
 BuildRequires: bison
 BuildRequires: flex
 BuildRequires: ncurses-devel
