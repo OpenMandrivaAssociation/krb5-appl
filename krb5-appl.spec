@@ -2,14 +2,14 @@
 %global login_pam_service remote
 
 Name: krb5-appl
-Version: 1.0.2
-Release: %mkrel 1
+Version: 1.0.3
+Release: 1
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
 Group: System/Servers
 # Maybe we should explode from the now-available-to-everybody tarball instead?
-# http://web.mit.edu/kerberos/dist/krb5-appl/1.0/krb5-appl-1.0-signed.tar
+# http://web.mit.edu/kerberos/dist/krb5-appl/1.0/krb5-appl-1.0.3-signed.tar
 Source0: krb5-appl-%{version}.tar.gz
 Source1: krb5-appl-%{version}.tar.gz.asc
 Source12: krsh
@@ -46,7 +46,6 @@ BuildRequires: ncurses-devel
 BuildRequires: texinfo
 BuildRequires: krb5-devel
 BuildRequires: pam-devel
-BuildRoot: %{_tmppath}/%{name}-%{version}
 
 %description
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
@@ -92,6 +91,7 @@ and rlogin clients.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
 
 %prep
+
 %setup -q
 ln -s NOTICE LICENSE
 
@@ -179,7 +179,6 @@ exit 0
 exit 0
 
 %files clients
-%defattr(-,root,root,-)
 %doc README NOTICE LICENSE
 
 # Used by both clients and servers.
@@ -200,7 +199,6 @@ exit 0
 %{_mandir}/man1/tmac.doc*
 
 %files servers
-%defattr(-,root,root,-)
 %doc README NOTICE LICENSE
 %docdir %{_mandir}
 
