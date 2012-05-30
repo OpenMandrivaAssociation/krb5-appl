@@ -93,7 +93,6 @@ and rlogin clients.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
 
 %prep
-
 %setup -q
 ln -s NOTICE LICENSE
 
@@ -137,8 +136,6 @@ LDFLAGS="-pie"
 %make
 
 %install
-rm -rf %{buildroot}
-
 # Shell scripts wrappers for Kerberized rsh and rlogin (source files).
 mkdir -p %{buildroot}%{_bindir}
 install -m 755 %{SOURCE12} %{buildroot}%{_bindir}
@@ -168,9 +165,6 @@ for pam in \
 done
 
 %makeinstall_std
-
-%clean
-rm -rf %{buildroot}
 
 %post servers
 /sbin/service xinetd reload > /dev/null 2>&1 || :
