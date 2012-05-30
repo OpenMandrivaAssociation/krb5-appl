@@ -3,7 +3,7 @@
 
 Name:		krb5-appl
 Version:	1.0.3
-Release:	2
+Release:	3
 Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License:	MIT
 URL:		http://web.mit.edu/kerberos/www/
