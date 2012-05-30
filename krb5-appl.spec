@@ -120,8 +120,8 @@ ln -s NOTICE LICENSE
 %patch0 -p1 -b .format
 %patch160 -p1 -b .pam
 %patch161 -p1 -b .manpaths
-%patch3  -p3 -b .netkit-rsh
-%patch4  -p1 -b .rlogind-environ
+%patch3 -p3 -b .netkit-rsh
+%patch4 -p1 -b .rlogind-environ
 %patch11 -p3 -b .passive
 %patch14 -p3 -b .ftp-glob
 %patch33 -p1 -b .io
