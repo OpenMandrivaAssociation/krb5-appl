@@ -3,7 +3,7 @@
 
 Name: krb5-appl
 Version: 1.0.3
-Release: 1
+Release: 2
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
@@ -80,8 +80,10 @@ Obsoletes: telnet-client-krb5
 Obsoletes: ftp-client-krb5
 Provides:  telnet-client-krb5
 Provides:  ftp-client-krb5
+Provides:  rsh-client-krb5
 # multiple alternatives
 Provides:  telnet-client
+Provides:  rsh-client
 Conflicts: netkit-telnet
 Conflicts: heimdal-telnet
 
