@@ -3,7 +3,7 @@
 
 Name:		krb5-appl
 Version:	1.0.3
-Release:	3
+Release:	2
 Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License:	MIT
 URL:		http://web.mit.edu/kerberos/www/
@@ -48,61 +48,70 @@ BuildRequires:	krb5-devel
 BuildRequires:	pam-devel
 
 %description
-This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
+This package contains Kerberos-aware versions of the telnet, ftp, rsh,
 and rlogin clients and servers.  While these have been replaced by tools
 such as OpenSSH in most environments, they remain in use in others.
 
 %package	servers
 Group:		System/Servers
-Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
+Summary:	Kerberos-aware telnet, ftp, rsh and rlogin servers
 Requires:	xinetd
 Requires(post):	/sbin/service, xinetd
+Requires:	%{name}-rcp = %{EVRD}
 # transition with previous package
 Obsoletes:	telnet-server-krb5
 Obsoletes:	ftp-server-krb5
 Provides:	telnet-server-krb5
 Provides:	ftp-server-krb5
-Provides:	rcp-server-krb5
 Provides:	rlogin-server-krb5
 Provides:	rsh-server-krb5
 # multiple alternatives
 Provides:	telnet-server
 Provides:	ftp-server
-Provides:	rcp-server
 Provides:	rlogin-server
 Provides:	rsh-server
 Conflicts:	netkit-telnet-server
 Conflicts:	heimdal-telnetd
 
 %description	servers
-This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
+This package contains Kerberos-aware versions of the telnet, ftp, rsh,
 and rlogin servers.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
 
 %package	clients
-Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
+Summary:	Kerberos-aware telnet, ftp, rsh and rlogin clients
 Group:		Networking/Remote access
+Requires:	%{name}-rcp = %{EVRD}
 # transition with previous package
 Obsoletes:	telnet-client-krb5
 Obsoletes:	ftp-client-krb5
 Provides:	telnet-client-krb5
 Provides:	ftp-client-krb5
-Provides:	rcp-client-krb5
 Provides:	rlogin-client-krb5
 Provides:	rsh-client-krb5
 # multiple alternatives
 Provides:	telnet-client
 Provides:	ftp-client
-Provides:	rcp-client
 Provides:	rlogin-client
 Provides:	rsh-client
 Conflicts:	netkit-telnet
 Conflicts:	heimdal-telnet
 
 %description	clients
-This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
+This package contains Kerberos-aware versions of the telnet, ftp, rsh,
 and rlogin clients.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
+
+%package	rcp
+Summary:	Kerberos-aware rcp client and server
+Provides:	%{name}-rcp = %{EVRD}
+Provides:	rcp-client-krb5
+Provides:	rcp-client
+Provides:	rcp-server-krb5
+Provides:	rcp-server
+
+%description	rcp
+This package contains a Kerberos-aware version the rcp client/server.
 
 %prep
 %setup -q
@@ -189,10 +198,6 @@ exit 0
 %files clients
 %doc README NOTICE LICENSE
 
-# Used by both clients and servers.
-%{_bindir}/rcp
-%{_mandir}/man1/rcp.1*
-
 # Client network bits.
 %{_bindir}/ftp
 %{_mandir}/man1/ftp.1*
@@ -209,10 +214,6 @@ exit 0
 %files servers
 %doc README NOTICE LICENSE
 %docdir %{_mandir}
-
-# Used by both clients and servers.
-%{_bindir}/rcp
-%{_mandir}/man1/rcp.1*
 
 %config(noreplace) %{_sysconfdir}/xinetd.d/*
 %config(noreplace) %{_sysconfdir}/pam.d/kshell
@@ -232,3 +233,7 @@ exit 0
 %{_mandir}/man8/kshd.8*
 %{_sbindir}/telnetd
 %{_mandir}/man8/telnetd.8*
+
+%files rcp
+%{_bindir}/rcp
+%{_mandir}/man1/rcp.1*
