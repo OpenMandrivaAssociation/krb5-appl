@@ -1,93 +1,93 @@
 # For consistency with regular login.
 %global login_pam_service remote
 
-Name: krb5-appl
-Version: 1.0.3
-Release: 2
-Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
-License: MIT
-URL: http://web.mit.edu/kerberos/www/
-Group: System/Servers
+Name:		krb5-appl
+Version:	1.0.3
+Release:	2
+Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
+License:	MIT
+URL:		http://web.mit.edu/kerberos/www/
+Group:		System/Servers
 # Maybe we should explode from the now-available-to-everybody tarball instead?
 # http://web.mit.edu/kerberos/dist/krb5-appl/1.0/krb5-appl-1.0.3-signed.tar
-Source0: krb5-appl-%{version}.tar.gz
-Source1: krb5-appl-%{version}.tar.gz.asc
-Source12: krsh
-Source13: krlogin
-Source14: eklogin.xinetd
-Source15: klogin.xinetd
-Source16: kshell.xinetd
-Source17: krb5-telnet.xinetd
-Source18: gssftp.xinetd
-Source22: ekrb5-telnet.xinetd
-Source125: krb5-appl-1.0-manpaths.txt
-Source26: gssftp.pamd
-Source27: kshell.pamd
-Source28: ekshell.pamd
-Patch0: krb5-appl-1.0-fix-format-errors.patch
-Patch3: krb5-1.3-netkit-rsh.patch
-Patch4: krb5-appl-1.0-rlogind-environ.patch
-Patch11: krb5-1.2.1-passive.patch
-Patch14: krb5-1.3-ftp-glob.patch
-Patch33: krb5-appl-1.0-io.patch
-Patch36: krb5-1.7-rcp-markus.patch
-Patch40: krb5-1.4.1-telnet-environ.patch
-Patch57: krb5-appl-1.0-login_chdir.patch
-Patch72: krb5-1.6.3-ftp_fdleak.patch
-Patch73: krb5-1.6.3-ftp_glob_runique.patch
-Patch79: krb5-trunk-ftp_mget_case.patch
-Patch88: krb5-1.7-sizeof.patch
-Patch89: krb5-appl-1.0.2-largefile.patch
-Patch160: krb5-appl-1.0.2-pam.patch
-Patch161: krb5-appl-1.0.2-manpaths.patch
-BuildRequires: bison
-BuildRequires: flex
-BuildRequires: ncurses-devel
-BuildRequires: texinfo
-BuildRequires: krb5-devel
-BuildRequires: pam-devel
+Source0:	krb5-appl-%{version}.tar.gz
+Source1:	krb5-appl-%{version}.tar.gz.asc
+Source12:	krsh
+Source13:	krlogin
+Source14:	eklogin.xinetd
+Source15:	klogin.xinetd
+Source16:	kshell.xinetd
+Source17:	krb5-telnet.xinetd
+Source18:	gssftp.xinetd
+Source22:	ekrb5-telnet.xinetd
+Source125:	krb5-appl-1.0-manpaths.txt
+Source26:	gssftp.pamd
+Source27:	kshell.pamd
+Source28:	ekshell.pamd
+Patch0:		krb5-appl-1.0-fix-format-errors.patch
+Patch3:		krb5-1.3-netkit-rsh.patch
+Patch4:		krb5-appl-1.0-rlogind-environ.patch
+Patch11:	krb5-1.2.1-passive.patch
+Patch14:	krb5-1.3-ftp-glob.patch
+Patch33:	krb5-appl-1.0-io.patch
+Patch36:	krb5-1.7-rcp-markus.patch
+Patch40:	krb5-1.4.1-telnet-environ.patch
+Patch57:	krb5-appl-1.0-login_chdir.patch
+Patch72:	krb5-1.6.3-ftp_fdleak.patch
+Patch73:	krb5-1.6.3-ftp_glob_runique.patch
+Patch79:	krb5-trunk-ftp_mget_case.patch
+Patch88:	krb5-1.7-sizeof.patch
+Patch89:	krb5-appl-1.0.2-largefile.patch
+Patch160:	krb5-appl-1.0.2-pam.patch
+Patch161:	krb5-appl-1.0.2-manpaths.patch
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	ncurses-devel
+BuildRequires:	texinfo
+BuildRequires:	krb5-devel
+BuildRequires:	pam-devel
 
 %description
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
 and rlogin clients and servers.  While these have been replaced by tools
 such as OpenSSH in most environments, they remain in use in others.
 
-%package servers
-Group: System/Servers
-Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
-Requires: xinetd
-Requires(post): /sbin/service, xinetd
+%package	servers
+Group:		System/Servers
+Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
+Requires:	xinetd
+Requires(post):	/sbin/service, xinetd
 # transition with previous package
-Obsoletes: telnet-server-krb5
-Obsoletes: ftp-server-krb5
-Provides:  telnet-server-krb5
-Provides:  ftp-server-krb5
+Obsoletes:	telnet-server-krb5
+Obsoletes:	ftp-server-krb5
+Provides:	telnet-server-krb5
+Provides:	ftp-server-krb5
 # multiple alternatives
-Provides:  telnet-server
-Conflicts: netkit-telnet-server
-Conflicts: heimdal-telnetd
+Provides:	telnet-server
+Conflicts:	netkit-telnet-server
+Conflicts:	heimdal-telnetd
 
-%description servers
+%description	servers
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
 and rlogin servers.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
 
-%package clients
-Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
-Group: Networking/Remote access
+%package	clients
+Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
+Group:		Networking/Remote access
 # transition with previous package
-Obsoletes: telnet-client-krb5
-Obsoletes: ftp-client-krb5
-Provides:  telnet-client-krb5
-Provides:  ftp-client-krb5
-Provides:  rsh-client-krb5
+Obsoletes:	telnet-client-krb5
+Obsoletes:	ftp-client-krb5
+Provides:	telnet-client-krb5
+Provides:	ftp-client-krb5
+Provides:	rsh-client-krb5
 # multiple alternatives
-Provides:  telnet-client
-Provides:  rsh-client
-Conflicts: netkit-telnet
-Conflicts: heimdal-telnet
+Provides:	telnet-client
+Provides:	rsh-client
+Conflicts:	netkit-telnet
+Conflicts:	heimdal-telnet
 
-%description clients
+%description	clients
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
 and rlogin clients.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
