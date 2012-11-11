@@ -1,0 +1,265 @@
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/bsd/krcp.c krb5-appl-1.0.2-largefile/bsd/krcp.c
+--- krb5-appl-1.0.2-ftp_fdleak/bsd/krcp.c	2011-07-18 13:57:49.000000000 +0200
++++ krb5-appl-1.0.2-largefile/bsd/krcp.c	2011-07-18 13:59:36.000000000 +0200
+@@ -748,8 +748,13 @@
+ 		continue;
+ 	    }
+ 	}
++#ifdef HAVE_LONG_LONG_INT
++	(void) snprintf(buf, sizeof(buf), "C%04o %lld %s\n",
++			(int) stb.st_mode&07777, (long long) stb.st_size, last);
++#else
+ 	(void) snprintf(buf, sizeof(buf), "C%04o %ld %s\n",
+ 			(int) stb.st_mode&07777, (long ) stb.st_size, last);
++#endif
+ 	(void) rcmd_stream_write(rem, buf, strlen(buf), 0);
+ 	if (response() < 0) {
+ 	    (void) close(f);
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/configure.ac krb5-appl-1.0.2-largefile/configure.ac
+--- krb5-appl-1.0.2-ftp_fdleak/configure.ac	2011-07-18 13:57:49.000000000 +0200
++++ krb5-appl-1.0.2-largefile/configure.ac	2011-07-18 14:00:06.000000000 +0200
+@@ -103,6 +103,10 @@
+     ;;
+ esac
+ 
++AC_SYS_LARGEFILE
++AC_FUNC_FSEEKO
++AC_TYPE_LONG_LONG_INT
++AC_TYPE_UNSIGNED_LONG_LONG_INT
+ AC_CHECK_FUNCS(_getpty cgetent getcwd getenv gethostbyname_r getservbyname_r)
+ AC_CHECK_FUNCS(gettosbyname getusershell getutmp getutmpx grantpt inet_aton)
+ AC_CHECK_FUNCS(initgroups isatty killpg killpg line_push ptsname revoke)
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/gssftp/ftp/ftp.c krb5-appl-1.0.2-largefile/gssftp/ftp/ftp.c
+--- krb5-appl-1.0.2-ftp_fdleak/gssftp/ftp/ftp.c	2011-07-18 13:58:36.000000000 +0200
++++ krb5-appl-1.0.2-largefile/gssftp/ftp/ftp.c	2011-07-18 13:59:36.000000000 +0200
+@@ -160,7 +160,11 @@
+ 
+ static void proxtrans (char *, char *, char *);
+ static int initconn (void);
++#ifdef HAVE_LONG_LONG_INT
++static void ptransfer (char *, long long, struct timeval *, struct timeval *);
++#else
+ static void ptransfer (char *, long, struct timeval *, struct timeval *);
++#endif
+ static void abort_remote (FILE *);
+ static void tvsub (struct timeval *, struct timeval *, struct timeval *);
+ static char *gunique (char *);
+@@ -791,7 +795,11 @@
+ 	FILE *volatile fin, *volatile dout = 0;
+ 	int (*volatile closefunc)();
+ 	volatile sig_t oldintr, oldintp;
++#ifdef HAVE_LONG_LONG_INT
++	volatile long long bytes = 0, hashbytes = HASHBYTES;
++#else
+ 	volatile long bytes = 0, hashbytes = HASHBYTES;
++#endif
+ 	char *volatile lmode;
+ 	char buf[FTP_BUFSIZ], *bufp;
+ 
+@@ -888,7 +896,7 @@
+ 
+ 	if (restart_point &&
+ 	    (strcmp(cmd, "STOR") == 0 || strcmp(cmd, "APPE") == 0)) {
+-		if (fseek(fin, (long) restart_point, 0) < 0) {
++		if (FSEEK(fin, restart_point, 0) < 0) {
+ 			fprintf(stderr, "local: %s: %s\n", local,
+ 				strerror(errno));
+ 			restart_point = 0;
+@@ -1282,7 +1290,7 @@
+ 		if (restart_point) {
+ 			register int i, n, ch;
+ 
+-			if (fseek(fout, 0L, L_SET) < 0)
++			if (FSEEK(fout, 0L, L_SET) < 0)
+ 				goto done;
+ 			n = restart_point;
+ 			for (i = 0; i++ < n;) {
+@@ -1291,7 +1299,7 @@
+ 				if (ch == '\n')
+ 					i++;
+ 			}
+-			if (fseek(fout, 0L, L_INCR) < 0) {
++			if (FSEEK(fout, 0L, L_INCR) < 0) {
+ done:
+ 				fprintf(stderr, "local: %s: %s\n", local,
+ 					strerror(errno));
+@@ -1556,8 +1564,13 @@
+ 	return (FDOPEN_SOCKET(data, lmode));
+ }
+ 
++#ifdef HAVE_LONG_LONG_INT
++static void ptransfer(char *direction, long long bytes,
++		      struct timeval *t0, struct timeval *t1)
++#else
+ static void ptransfer(char *direction, long bytes,
+ 		      struct timeval *t0, struct timeval *t1)
++#endif
+ {
+ 	struct timeval td;
+ 	float s, kbs;
+@@ -1567,8 +1580,13 @@
+ 		s = td.tv_sec + (td.tv_usec / 1000000.);
+ #define	nz(x)	((x) == 0 ? 1 : (x))
+ 		kbs = (bytes / nz(s))/1024.0;
++#ifdef HAVE_LONG_LONG_INT
++		printf("%lld bytes %s in %.2g seconds (%.2g Kbytes/s)\n",
++		    bytes, direction, s, kbs);
++#else
+ 		printf("%ld bytes %s in %.2g seconds (%.2g Kbytes/s)\n",
+ 		    bytes, direction, s, kbs);
++#endif
+ 	}
+ }
+ 
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/gssftp/ftp/ftp_var.h krb5-appl-1.0.2-largefile/gssftp/ftp/ftp_var.h
+--- krb5-appl-1.0.2-ftp_fdleak/gssftp/ftp/ftp_var.h	2011-07-18 13:58:36.000000000 +0200
++++ krb5-appl-1.0.2-largefile/gssftp/ftp/ftp_var.h	2011-07-18 13:59:36.000000000 +0200
+@@ -46,12 +46,18 @@
+ #define FDOPEN_SOCKET(s, mode) fdopen_socket(s, mode)
+ #define SOCKETNO(fd) _get_osfhandle(fd)
+ #define PERROR_SOCKET(str) do { errno = SOCKET_ERRNO; perror(str); } while(0)
++#define FSEEK(fd, offset, whence) fseek(fd, (long) offset, whence)
+ #else
+ #define FCLOSE_SOCKET(f) fclose(f)
+ FILE* fdopen_socket(int *s, char* mode);
+ #define FDOPEN_SOCKET(s, mode) fdopen_socket(&s, mode)
+ #define SOCKETNO(fd) (fd)
+ #define PERROR_SOCKET(str) perror(str)
++#ifdef HAVE_FSEEKO
++#define FSEEK(fd, offset, whence) fseeko(fd, (off_t) offset, whence)
++#else
++#define FSEEK(fd, offset, whence) fseek(fd, (long) offset, whence)
++#endif
+ #endif
+ 
+ #ifdef _WIN32
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/gssftp/ftpd/ftpcmd.y krb5-appl-1.0.2-largefile/gssftp/ftpd/ftpcmd.y
+--- krb5-appl-1.0.2-ftp_fdleak/gssftp/ftpd/ftpcmd.y	2011-07-18 13:57:49.000000000 +0200
++++ krb5-appl-1.0.2-largefile/gssftp/ftpd/ftpcmd.y	2011-07-18 13:59:36.000000000 +0200
+@@ -1499,12 +1499,20 @@
+ 		    (stbuf.st_mode&S_IFMT) != S_IFREG)
+ 			reply(550, "%s: not a plain file.", filename);
+ 		else
++#ifdef HAVE_LONG_LONG_INT
++			reply(213, "%llu", (long long) stbuf.st_size);
++#else
+ 			reply(213, "%lu", (long) stbuf.st_size);
++#endif
+ 		break;}
+ 	case TYPE_A: {
+ 		FILE *fin;
+ 		register int c;
++#ifdef HAVE_LONG_LONG_INT
++		register long long count;
++#else
+ 		register long count;
++#endif
+ 		struct stat stbuf;
+ 		fin = fopen(filename, "r");
+ 		if (fin == NULL) {
+@@ -1526,7 +1534,11 @@
+ 		}
+ 		(void) fclose(fin);
+ 
++#ifdef HAVE_LONG_LONG_INT
++		reply(213, "%lld", count);
++#else
+ 		reply(213, "%ld", count);
++#endif
+ 		break;}
+ 	default:
+ 		reply(504, "SIZE not implemented for Type %c.", "?AEIL"[type]);
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/gssftp/ftpd/ftpd.c krb5-appl-1.0.2-largefile/gssftp/ftpd/ftpd.c
+--- krb5-appl-1.0.2-ftp_fdleak/gssftp/ftpd/ftpd.c	2011-07-18 13:57:49.000000000 +0200
++++ krb5-appl-1.0.2-largefile/gssftp/ftpd/ftpd.c	2011-07-18 13:59:36.000000000 +0200
+@@ -1157,8 +1157,13 @@
+ done:
+ 	(*closefunc)(fin);
+ 	if (logging > 2 && !cmd) {
++#ifdef HAVE_UNSIGNED_LONG_LONG_INT
++		syslog(LOG_NOTICE, "get: %llu bytes transferred",
++		       (unsigned long long) byte_count);
++#else
+ 	        syslog(LOG_NOTICE, "get: %lu bytes transferred",
+ 		       (unsigned long) byte_count);
++#endif
+ 	}
+ }
+ 
+@@ -1204,7 +1209,7 @@
+ 			 * because we are changing from reading to
+ 			 * writing.
+ 			 */
+-			if (fseek(fout, 0L, L_INCR) < 0) {
++			if (FSEEK(fout, 0L, L_INCR) < 0) {
+ 				perror_reply(550, name);
+ 				goto done;
+ 			}
+@@ -1229,8 +1234,13 @@
+ done:
+ 	(*closefunc)(fout);
+ 	if (logging > 2) {
++#ifdef HAVE_UNSIGNED_LONG_LONG_INT
++		syslog(LOG_NOTICE, "put: %llu bytes transferred",
++		       (unsigned long long) byte_count);
++#else
+ 	        syslog(LOG_NOTICE, "put: %lu bytes transferred",
+ 		       (unsigned long) byte_count);
++#endif
+ 	}
+ }
+ 
+@@ -1293,8 +1303,13 @@
+ 	byte_count = 0;
+ 	if (size != (off_t) -1)
+ 		/* cast size to long in case sizeof(off_t) > sizeof(long) */
++#ifdef HAVE_LONG_LONG_INT
++		(void) snprintf (sizebuf, sizeof(sizebuf), " (%lld bytes)",
++				 (long long)size);
++#else
+ 		(void) snprintf (sizebuf, sizeof(sizebuf), " (%ld bytes)",
+ 				 (long)size);
++#endif
+ 	else
+ 		sizebuf[0] = '\0';
+ 	if (pdata >= 0) {
+@@ -2011,6 +2026,15 @@
+ 		siglongjmp(urgcatch, 1);
+ 	}
+ 	if (strcmp(cp, "STAT") == 0) {
++#ifdef HAVE_LONG_LONG_INT
++		if (file_size != (off_t) -1)
++			reply(213, "Status: %llu of %llu bytes transferred",
++			      (unsigned long long) byte_count, 
++			      (unsigned long long) file_size);
++		else
++			reply(213, "Status: %llu bytes transferred", 
++			      (unsigned long long) byte_count);
++#else
+ 		if (file_size != (off_t) -1)
+ 			reply(213, "Status: %lu of %lu bytes transferred",
+ 			      (unsigned long) byte_count, 
+@@ -2018,6 +2042,7 @@
+ 		else
+ 			reply(213, "Status: %lu bytes transferred", 
+ 			      (unsigned long) byte_count);
++#endif
+ 	}
+ }
+ 
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-ftp_fdleak/gssftp/ftpd/ftpd_var.h krb5-appl-1.0.2-largefile/gssftp/ftpd/ftpd_var.h
+--- krb5-appl-1.0.2-ftp_fdleak/gssftp/ftpd/ftpd_var.h	2011-07-18 13:57:49.000000000 +0200
++++ krb5-appl-1.0.2-largefile/gssftp/ftpd/ftpd_var.h	2011-07-18 13:59:36.000000000 +0200
+@@ -41,6 +41,12 @@
+ char *radix_error (int);
+ int radix_encode (unsigned char *, unsigned char *, size_t *, int);
+ 
++#ifdef HAVE_FSEEKO
++#define FSEEK(fd, offset, whence) fseeko(fd, (off_t) offset, whence)
++#else
++#define FSEEK(fd, offset, whence) fseek(fd, (long) offset, whence)
++#endif
++
+ /* ftpd.c */
+ void ack(char *);
+ int auth_data(unsigned char *);

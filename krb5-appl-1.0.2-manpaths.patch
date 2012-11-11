@@ -1,0 +1,69 @@
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-pam//aclocal.m4 krb5-appl-1.0.2-manpaths//aclocal.m4
+--- krb5-appl-1.0.2-pam//aclocal.m4	2011-07-18 13:44:19.000000000 +0200
++++ krb5-appl-1.0.2-manpaths//aclocal.m4	2011-07-18 13:53:10.000000000 +0200
+@@ -565,3 +565,24 @@
+ AC_SUBST(PAM_MAN)
+ AC_SUBST(NON_PAM_MAN)
+ ])dnl
++AC_DEFUN(V5_AC_OUTPUT_MANPAGE,[
++mansysconfdir=$sysconfdir
++mansysconfdir=`eval echo $mansysconfdir | sed -e "s,NONE,$prefix,g"`
++mansysconfdir=`eval echo $mansysconfdir | sed -e "s,NONE,$ac_default_prefix,g"`
++mansbindir=$sbindir
++mansbindir=`eval echo $mansbindir | sed -e "s,NONE,$exec_prefix,g"`
++mansbindir=`eval echo $mansbindir | sed -e "s,NONE,$prefix,g"`
++mansbindir=`eval echo $mansbindir | sed -e "s,NONE,$ac_default_prefix,g"`
++manlocalstatedir=$localstatedir
++manlocalstatedir=`eval echo $manlocalstatedir | sed -e "s,NONE,$prefix,g"`
++manlocalstatedir=`eval echo $manlocalstatedir | sed -e "s,NONE,$ac_default_prefix,g"`
++manlibexecdir=$libexecdir
++manlibexecdir=`eval echo $manlibexecdir | sed -e "s,NONE,$exec_prefix,g"`
++manlibexecdir=`eval echo $manlibexecdir | sed -e "s,NONE,$prefix,g"`
++manlibexecdir=`eval echo $manlibexecdir | sed -e "s,NONE,$ac_default_prefix,g"`
++AC_SUBST(mansysconfdir)
++AC_SUBST(mansbindir)
++AC_SUBST(manlocalstatedir)
++AC_SUBST(manlibexecdir)
++AC_CONFIG_FILES($1)
++])
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-pam//bsd/klogind.M krb5-appl-1.0.2-manpaths//bsd/klogind.M
+--- krb5-appl-1.0.2-pam//bsd/klogind.M	2011-07-18 13:44:04.000000000 +0200
++++ krb5-appl-1.0.2-manpaths//bsd/klogind.M	2011-07-18 13:53:40.000000000 +0200
+@@ -27,7 +27,7 @@
+ the port indicated in /etc/inetd.conf.  A typical /etc/inetd.conf
+ configuration line for \fIklogind\fP might be:
+ 
+-klogin stream tcp nowait root /usr/local/sbin/klogind klogind \-e5c
++klogin stream tcp nowait root @mansbindir@/klogind klogind \-e5c
+ 
+ When a service request is received, the following protocol is initiated:
+ 
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-pam//bsd/kshd.M krb5-appl-1.0.2-manpaths//bsd/kshd.M
+--- krb5-appl-1.0.2-pam//bsd/kshd.M	2011-07-18 13:44:05.000000000 +0200
++++ krb5-appl-1.0.2-manpaths//bsd/kshd.M	2011-07-18 13:53:10.000000000 +0200
+@@ -30,7 +30,7 @@
+ on the port indicated in /etc/inetd.conf.  A typical /etc/inetd.conf
+ configuration line for \fIkrshd\fP might be:
+ 
+-kshell	stream	tcp	nowait	root	/usr/local/sbin/kshd	kshd -5c
++kshell	stream	tcp	nowait	root	@mansbindir@/kshd	kshd -5c
+ 
+ When a service request is received, the following protocol is initiated:
+ 
+diff -Naur -x '*~' -x '*.orig' -x '*.rej' krb5-appl-1.0.2-pam//configure.ac krb5-appl-1.0.2-manpaths//configure.ac
+--- krb5-appl-1.0.2-pam//configure.ac	2011-07-18 13:44:19.000000000 +0200
++++ krb5-appl-1.0.2-manpaths//configure.ac	2011-07-18 13:53:10.000000000 +0200
+@@ -418,6 +418,13 @@
+ fi
+ AC_SUBST(HAVE_RUNTEST)
+ 
++V5_AC_OUTPUT_MANPAGE([
++	gssftp/ftpd/ftpd.M
++	bsd/klogind.M
++	bsd/kshd.M
++	telnet/telnetd/telnetd.8
++])
++
+ V5_AC_OUTPUT_MAKEFILE(. bsd libmissing libpty
+                       gssftp gssftp/ftp gssftp/ftpd
+                       telnet telnet/libtelnet telnet/telnet telnet/telnetd

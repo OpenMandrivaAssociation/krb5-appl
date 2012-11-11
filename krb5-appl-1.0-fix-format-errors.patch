@@ -1,0 +1,82 @@
+diff -Naur -x '*~' krb5-appl-1.0/gssftp/ftp/cmds.c krb5-appl-1.0-fix-format-errors/gssftp/ftp/cmds.c
+--- krb5-appl-1.0/gssftp/ftp/cmds.c	2009-11-05 21:15:06.000000000 +0100
++++ krb5-appl-1.0-fix-format-errors/gssftp/ftp/cmds.c	2010-04-27 21:12:09.000000000 +0200
+@@ -1824,7 +1824,7 @@
+ 			len += strlen(strncpy(&buf[len], argv[i], sizeof(buf) - 1 - len));
+ 		}
+ 	}
+-	if (command(buf) == PRELIM) {
++	if (command("%s", buf) == PRELIM) {
+ 		while (getreply(0) == PRELIM);
+ 	}
+ }
+diff -Naur -x '*~' krb5-appl-1.0/gssftp/ftpd/ftpd.c krb5-appl-1.0-fix-format-errors/gssftp/ftpd/ftpd.c
+--- krb5-appl-1.0/gssftp/ftpd/ftpd.c	2009-11-18 06:07:46.000000000 +0100
++++ krb5-appl-1.0-fix-format-errors/gssftp/ftpd/ftpd.c	2010-04-27 21:16:18.000000000 +0200
+@@ -2360,7 +2360,7 @@
+ 		globerr = NULL;
+ 		dirlist = ftpglob(whichfiles);
+ 		if (globerr != NULL) {
+-			reply(550, globerr);
++			reply(550, "%s", globerr);
+ 			return;
+ 		} else if (dirlist == NULL) {
+ 			errno = ENOENT;
+@@ -2536,7 +2536,7 @@
+ log_gss_error(int severity, OM_uint32 maj_stat, OM_uint32 min_stat,
+ 	      const char *s)
+ {
+-    syslog(severity, s);
++    syslog(severity, "%s", s);
+     with_gss_error_text(log_gss_error_1, maj_stat, min_stat, severity);
+ }
+ 
+diff -Naur -x '*~' krb5-appl-1.0/telnet/telnet/utilities.c krb5-appl-1.0-fix-format-errors/telnet/telnet/utilities.c
+--- krb5-appl-1.0/telnet/telnet/utilities.c	2009-07-08 23:22:07.000000000 +0200
++++ krb5-appl-1.0-fix-format-errors/telnet/telnet/utilities.c	2010-04-27 21:25:18.000000000 +0200
+@@ -797,13 +797,13 @@
+ 			    if (pointer[0] == TELOPT_OLD_ENVIRON) {
+ # ifdef	ENV_HACK
+ 				if (old_env_var == OLD_ENV_VALUE)
+-				    fprintf(NetTrace, "\" (VALUE) " + noquote);
++				    fprintf(NetTrace, "%s", "\" (VALUE) " + noquote);
+ 				else
+ # endif
+-				    fprintf(NetTrace, "\" VAR " + noquote);
++				    fprintf(NetTrace, "%s", "\" VAR " + noquote);
+ 			    } else
+ #endif /* OLD_ENVIRON */
+-				fprintf(NetTrace, "\" VALUE " + noquote);
++				fprintf(NetTrace, "%s", "\" VALUE " + noquote);
+ 			    noquote = 2;
+ 			    break;
+ 
+@@ -813,23 +813,23 @@
+ 			    if (pointer[0] == TELOPT_OLD_ENVIRON) {
+ # ifdef	ENV_HACK
+ 				if (old_env_value == OLD_ENV_VAR)
+-				    fprintf(NetTrace, "\" (VAR) " + noquote);
++				    fprintf(NetTrace, "%s", "\" (VAR) " + noquote);
+ 				else
+ # endif
+-				    fprintf(NetTrace, "\" VALUE " + noquote);
++				    fprintf(NetTrace, "%s", "\" VALUE " + noquote);
+ 			    } else
+ #endif /* OLD_ENVIRON */
+-				fprintf(NetTrace, "\" VAR " + noquote);
++				fprintf(NetTrace, "%s", "\" VAR " + noquote);
+ 			    noquote = 2;
+ 			    break;
+ 
+ 			case ENV_ESC:
+-			    fprintf(NetTrace, "\" ESC " + noquote);
++			    fprintf(NetTrace, "%s", "\" ESC " + noquote);
+ 			    noquote = 2;
+ 			    break;
+ 
+ 			case ENV_USERVAR:
+-			    fprintf(NetTrace, "\" USERVAR " + noquote);
++			    fprintf(NetTrace, "%s", "\" USERVAR " + noquote);
+ 			    noquote = 2;
+ 			    break;
+ 
