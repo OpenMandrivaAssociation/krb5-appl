@@ -1,15 +1,2 @@
 sources:
-  "eklogin.xinetd:"	bed6e2b9845827ee49ded2b71467ae4923ca3385
-  "ekrb5-telnet.xinetd:"	2c9dce5140c28eeafd3c7cfb281c5b5a40936fde
-  "ekshell.pamd:"	5b78d1b0bb425066a5fb2224d442d56d4bda54eb
-  "gssftp.pamd:"	c53c55c11d9a2dbb602668534f9b271c65e6fc5d
-  "gssftp.xinetd:"	6b4331fd48071ea6065ee280f4cc1cff7e510091
-  "klogin.xinetd:"	7dfa2db0c73bb7cb05be8e8bb4b0e1ad7aab99d9
-  "krb5-appl-1.0.3.tar.gz:"	15c518bf9c4595a5a0c2feaf524fc8172c6bfad1
-  "krb5-appl-1.0.3.tar.gz.asc:"	000d6acd408878fc70b8e6d6862e15aa4c8474fa
-  "krb5-appl-1.0-manpaths.txt:"	208cc694897b428f8f6aa6aee52311064024da15
-  "krb5-telnet.xinetd:"	5810194330d549f444c572284266904922251e99
-  "krlogin:"	5fd4074b24861bdd3c6abd18dd38da7cd9e59aaa
-  "krsh:"	cf38a19f254b1f35d8e76294c5fda983832a3097
-  "kshell.pamd:"	2a8b038afe7b0711e01cc041e0150b68d77dfb7a
-  "kshell.xinetd:"	ac4ccb63932a0a34b6369caabb8b7ceaacc430a3
+  "krb5-appl-1.0.2.tar.gz": 11f46e8c8c4ae4ec4da274004083c4ef323196d4
