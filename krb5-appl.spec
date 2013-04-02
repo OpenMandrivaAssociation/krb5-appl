@@ -2,8 +2,8 @@
 %global login_pam_service remote
 
 Name: krb5-appl
-Version: 1.0.2
-Release: %mkrel 5
+Version: 1.0.3
+Release: 1
 Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License: MIT
 URL: http://web.mit.edu/kerberos/www/
@@ -41,6 +41,7 @@ Patch89: krb5-appl-1.0.2-largefile.patch
 Patch90: krb5-appl-1.0-CVE-2011-4862.diff
 Patch160: krb5-appl-1.0.2-pam.patch
 Patch161: krb5-appl-1.0.2-manpaths.patch
+Patch162: krb5-appl-1.0.3-fix-typedef.patch
 BuildRequires: bison
 BuildRequires: flex
 BuildRequires: ncurses-devel
@@ -99,6 +100,7 @@ ln -s NOTICE LICENSE
 %patch0 -p1 -b .format
 %patch160 -p1 -b .pam
 %patch161 -p1 -b .manpaths
+%patch162 -p1 -b .typedef
 %patch3  -p3 -b .netkit-rsh
 %patch4  -p1 -b .rlogind-environ
 %patch11 -p3 -b .passive

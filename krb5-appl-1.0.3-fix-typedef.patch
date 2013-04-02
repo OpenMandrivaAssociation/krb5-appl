@@ -1,0 +1,13 @@
+diff -uNr krb5-appl-1.0.3/gssftp/ftp/ftp_var.h krb5-appl-1.0.3p/gssftp/ftp/ftp_var.h
+--- krb5-appl-1.0.3/gssftp/ftp/ftp_var.h	2011-07-11 22:30:25.000000000 +0300
++++ krb5-appl-1.0.3p/gssftp/ftp/ftp_var.h	2013-01-24 15:28:32.653782034 +0200
+@@ -57,9 +57,7 @@
+ typedef void (*sig_t)(int);
+ typedef void sigtype;
+ #else
+-#define sig_t my_sig_t
+ #define sigtype krb5_sigtype
+-typedef sigtype (*sig_t)();
+ #endif
+ 
+ /*
