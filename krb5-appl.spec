@@ -38,7 +38,6 @@ Patch73: krb5-1.6.3-ftp_glob_runique.patch
 Patch79: krb5-trunk-ftp_mget_case.patch
 Patch88: krb5-1.7-sizeof.patch
 Patch89: krb5-appl-1.0.2-largefile.patch
-Patch90: krb5-appl-1.0-CVE-2011-4862.diff
 Patch160: krb5-appl-1.0.2-pam.patch
 Patch161: krb5-appl-1.0.2-manpaths.patch
 Patch162: krb5-appl-1.0.3-fix-typedef.patch
@@ -114,7 +113,6 @@ ln -s NOTICE LICENSE
 %patch79 -p2 -b .ftp_mget_case
 %patch88 -p3 -b .sizeof
 %patch89 -p1 -b .largefile
-%patch90 -p0 -b .CVE-2011-4862
 
 # Rename the man pages so that they'll get generated correctly.  Uses the
 # "krb5-appl-1.0-manpaths.txt" source file.
