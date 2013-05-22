@@ -1,53 +1,52 @@
 # For consistency with regular login.
 %global login_pam_service remote
 
-Name: krb5-appl
-Version: 1.0.3
-Release: 1
-Summary: Kerberos-aware versions of telnet, ftp, rsh, and rlogin
-License: MIT
-URL: http://web.mit.edu/kerberos/www/
-Group: System/Servers
+Name:		krb5-appl
+Version:	1.0.3
+Release:	1
+Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
+License:	MIT
+Url:		http://web.mit.edu/kerberos/www/
+Group:		System/Servers
 # Maybe we should explode from the now-available-to-everybody tarball instead?
 # http://web.mit.edu/kerberos/dist/krb5-appl/1.0/krb5-appl-1.0-signed.tar
-Source0: krb5-appl-%{version}.tar.gz
-Source1: krb5-appl-%{version}.tar.gz.asc
-Source12: krsh
-Source13: krlogin
-Source14: eklogin.xinetd
-Source15: klogin.xinetd
-Source16: kshell.xinetd
-Source17: krb5-telnet.xinetd
-Source18: gssftp.xinetd
-Source22: ekrb5-telnet.xinetd
-Source125: krb5-appl-1.0-manpaths.txt
-Source26: gssftp.pamd
-Source27: kshell.pamd
-Source28: ekshell.pamd
-Patch0: krb5-appl-1.0-fix-format-errors.patch
-Patch3: krb5-1.3-netkit-rsh.patch
-Patch4: krb5-appl-1.0-rlogind-environ.patch
-Patch11: krb5-1.2.1-passive.patch
-Patch14: krb5-1.3-ftp-glob.patch
-Patch33: krb5-appl-1.0-io.patch
-Patch36: krb5-1.7-rcp-markus.patch
-Patch40: krb5-1.4.1-telnet-environ.patch
-Patch57: krb5-appl-1.0-login_chdir.patch
-Patch72: krb5-1.6.3-ftp_fdleak.patch
-Patch73: krb5-1.6.3-ftp_glob_runique.patch
-Patch79: krb5-trunk-ftp_mget_case.patch
-Patch88: krb5-1.7-sizeof.patch
-Patch89: krb5-appl-1.0.2-largefile.patch
-Patch160: krb5-appl-1.0.2-pam.patch
-Patch161: krb5-appl-1.0.2-manpaths.patch
-Patch162: krb5-appl-1.0.3-fix-typedef.patch
-BuildRequires: bison
-BuildRequires: flex
-BuildRequires: ncurses-devel
-BuildRequires: texinfo
-BuildRequires: krb5-devel
-BuildRequires: pam-devel
-BuildRoot: %{_tmppath}/%{name}-%{version}
+Source0:	krb5-appl-%{version}.tar.gz
+Source1:	krb5-appl-%{version}.tar.gz.asc
+Source12:	krsh
+Source13:	krlogin
+Source14:	eklogin.xinetd
+Source15:	klogin.xinetd
+Source16:	kshell.xinetd
+Source17:	krb5-telnet.xinetd
+Source18:	gssftp.xinetd
+Source22:	ekrb5-telnet.xinetd
+Source125:	krb5-appl-1.0-manpaths.txt
+Source26:	gssftp.pamd
+Source27:	kshell.pamd
+Source28:	ekshell.pamd
+Patch0:		krb5-appl-1.0-fix-format-errors.patch
+Patch3:		krb5-1.3-netkit-rsh.patch
+Patch4:		krb5-appl-1.0-rlogind-environ.patch
+Patch11:	krb5-1.2.1-passive.patch
+Patch14:	krb5-1.3-ftp-glob.patch
+Patch33:	krb5-appl-1.0-io.patch
+Patch36:	krb5-1.7-rcp-markus.patch
+Patch40:	krb5-1.4.1-telnet-environ.patch
+Patch57:	krb5-appl-1.0-login_chdir.patch
+Patch72:	krb5-1.6.3-ftp_fdleak.patch
+Patch73:	krb5-1.6.3-ftp_glob_runique.patch
+Patch79:	krb5-trunk-ftp_mget_case.patch
+Patch88:	krb5-1.7-sizeof.patch
+Patch89:	krb5-appl-1.0.2-largefile.patch
+Patch160:	krb5-appl-1.0.2-pam.patch
+Patch161:	krb5-appl-1.0.2-manpaths.patch
+Patch162:	krb5-appl-1.0.3-fix-typedef.patch
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	texinfo
+BuildRequires:	krb5-devel
+BuildRequires:	pam-devel
+BuildRequires:	pkgconfig(ncurses)
 
 %description
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
@@ -55,19 +54,19 @@ and rlogin clients and servers.  While these have been replaced by tools
 such as OpenSSH in most environments, they remain in use in others.
 
 %package servers
-Group: System/Servers
-Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
-Requires: xinetd
-Requires(post): /sbin/service, xinetd
+Group:		System/Servers
+Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
+Requires:	xinetd
+Requires(post):	/sbin/service, xinetd
 # transition with previous package
-Obsoletes: telnet-server-krb5
-Obsoletes: ftp-server-krb5
-Provides:  telnet-server-krb5
-Provides:  ftp-server-krb5
+Obsoletes:	telnet-server-krb5
+Obsoletes:	ftp-server-krb5
+Provides:	telnet-server-krb5
+Provides:	ftp-server-krb5
 # multiple alternatives
-Provides:  telnet-server
-Conflicts: netkit-telnet-server
-Conflicts: heimdal-telnetd
+Provides:	telnet-server
+Conflicts:	netkit-telnet-server
+Conflicts:	heimdal-telnetd
 
 %description servers
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
@@ -75,17 +74,17 @@ and rlogin servers.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
 
 %package clients
-Summary: Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
-Group: Networking/Remote access
+Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
+Group:		Networking/Remote access
 # transition with previous package
-Obsoletes: telnet-client-krb5
-Obsoletes: ftp-client-krb5
-Provides:  telnet-client-krb5
-Provides:  ftp-client-krb5
+Obsoletes:	telnet-client-krb5
+Obsoletes:	ftp-client-krb5
+Provides:	telnet-client-krb5
+Provides:	ftp-client-krb5
 # multiple alternatives
-Provides:  telnet-client
-Conflicts: netkit-telnet
-Conflicts: heimdal-telnet
+Provides:	telnet-client
+Conflicts:	netkit-telnet
+Conflicts:	heimdal-telnet
 
 %description clients
 This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
@@ -137,8 +136,6 @@ LDFLAGS="-pie"
 %make
 
 %install
-rm -rf %{buildroot}
-
 # Shell scripts wrappers for Kerberized rsh and rlogin (source files).
 mkdir -p %{buildroot}%{_bindir}
 install -m 755 %{SOURCE12} %{buildroot}%{_bindir}
@@ -169,9 +166,6 @@ done
 
 %makeinstall_std
 
-%clean
-rm -rf %{buildroot}
-
 %post servers
 /sbin/service xinetd reload > /dev/null 2>&1 || :
 exit 0
@@ -181,9 +175,7 @@ exit 0
 exit 0
 
 %files clients
-%defattr(-,root,root,-)
 %doc README NOTICE LICENSE
-
 # Used by both clients and servers.
 %{_bindir}/rcp
 %{_mandir}/man1/rcp.1*
@@ -202,7 +194,6 @@ exit 0
 %{_mandir}/man1/tmac.doc*
 
 %files servers
-%defattr(-,root,root,-)
 %doc README NOTICE LICENSE
 %docdir %{_mandir}
 
@@ -228,39 +219,4 @@ exit 0
 %{_mandir}/man8/kshd.8*
 %{_sbindir}/telnetd
 %{_mandir}/man8/telnetd.8*
-
-
-%changelog
-* Wed Dec 28 2011 Oden Eriksson <oeriksson@mandriva.com> 1.0.2-1.1
-- P90: security fix for CVE-2011-4862 (upstream)
-
-* Mon Jul 18 2011 Guillaume Rousse <guillomovitch@mandriva.org> 1.0.2-1
-+ Revision: 690345
-- new version
-
-* Wed May 04 2011 Oden Eriksson <oeriksson@mandriva.com> 1.0.1-2
-+ Revision: 666046
-- mass rebuild
-
-* Sat Jul 17 2010 Guillaume Rousse <guillomovitch@mandriva.org> 1.0.1-1mdv2011.0
-+ Revision: 554637
-- new version
-- add explicit conflict with other telnet implementations
-
-* Wed Apr 28 2010 Guillaume Rousse <guillomovitch@mandriva.org> 1.0-4mdv2010.1
-+ Revision: 540209
-- add telnet-server and telnet-client virtual packages
-
-* Wed Apr 28 2010 Götz Waschk <waschk@mandriva.org> 1.0-3mdv2010.1
-+ Revision: 540180
-- provide telnet as well
-
-* Tue Apr 27 2010 Götz Waschk <waschk@mandriva.org> 1.0-2mdv2010.1
-+ Revision: 539882
-- provide obsoleted packages as well
-
-* Tue Apr 27 2010 Guillaume Rousse <guillomovitch@mandriva.org> 1.0-1mdv2010.1
-+ Revision: 539849
-- import krb5-appl
-
 
