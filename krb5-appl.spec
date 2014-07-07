@@ -1,10 +1,10 @@
 # For consistency with regular login.
 %global login_pam_service remote
 
+Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 Name:		krb5-appl
 Version:	1.0.3
 Release:	7
-Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 License:	MIT
 Url:		http://web.mit.edu/kerberos/www/
 Group:		System/Servers
@@ -53,16 +53,53 @@ This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
 and rlogin clients and servers.  While these have been replaced by tools
 such as OpenSSH in most environments, they remain in use in others.
 
-%package servers
-Group:		System/Servers
-Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
-Requires:	xinetd
-Requires(post):	/sbin/service, xinetd
+#----------------------------------------------------------------------------
+
+%package clients
+Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
+Group:		Networking/Remote access
 # transition with previous package
-Obsoletes:	telnet-server-krb5
-Obsoletes:	ftp-server-krb5
-Provides:	telnet-server-krb5
-Provides:	ftp-server-krb5
+%rename		telnet-client-krb5
+%rename		ftp-client-krb5
+# multiple alternatives
+Provides:	telnet-client
+Conflicts:	netkit-telnet
+Conflicts:	heimdal-telnet
+
+%description clients
+This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
+and rlogin clients.  While these have been replaced by tools such as OpenSSH
+in most environments, they remain in use in others.
+
+%files clients
+%doc README NOTICE LICENSE
+# Used by both clients and servers.
+%{_bindir}/rcp
+%{_mandir}/man1/rcp.1*
+# Client network bits.
+%{_bindir}/ftp
+%{_mandir}/man1/ftp.1*
+%{_bindir}/krlogin
+%{_bindir}/rlogin
+%{_mandir}/man1/rlogin.1*
+%{_bindir}/krsh
+%{_bindir}/rsh
+%{_mandir}/man1/rsh.1*
+%{_bindir}/telnet
+%{_mandir}/man1/telnet.1*
+%{_mandir}/man1/tmac.doc*
+
+#----------------------------------------------------------------------------
+
+%package servers
+Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
+Group:		System/Servers
+Requires:	xinetd
+Requires(post):	/sbin/service
+Requires(post):	xinetd
+# transition with previous package
+%rename		telnet-server-krb5
+%rename		ftp-server-krb5
 # multiple alternatives
 Provides:	telnet-server
 Conflicts:	netkit-telnet-server
@@ -73,23 +110,38 @@ This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
 and rlogin servers.  While these have been replaced by tools such as OpenSSH
 in most environments, they remain in use in others.
 
-%package clients
-Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin clients
-Group:		Networking/Remote access
-# transition with previous package
-Obsoletes:	telnet-client-krb5
-Obsoletes:	ftp-client-krb5
-Provides:	telnet-client-krb5
-Provides:	ftp-client-krb5
-# multiple alternatives
-Provides:	telnet-client
-Conflicts:	netkit-telnet
-Conflicts:	heimdal-telnet
+%files servers
+%doc README NOTICE LICENSE
+%docdir %{_mandir}
+# Used by both clients and servers.
+# %{_bindir}/rcp
+# %{_mandir}/man1/rcp.1*
+%config(noreplace) %{_sysconfdir}/xinetd.d/*
+%config(noreplace) %{_sysconfdir}/pam.d/kshell
+%config(noreplace) %{_sysconfdir}/pam.d/ekshell
+%config(noreplace) %{_sysconfdir}/pam.d/gssftp
+# Login is used by telnetd and klogind.
+%{_sbindir}/login.krb5
+%{_mandir}/man8/login.krb5.8*
+# Application servers.
+%{_sbindir}/ftpd
+%{_mandir}/man8/ftpd.8*
+%{_sbindir}/klogind
+%{_mandir}/man8/klogind.8*
+%{_sbindir}/kshd
+%{_mandir}/man8/kshd.8*
+%{_sbindir}/telnetd
+%{_mandir}/man8/telnetd.8*
 
-%description clients
-This package contains Kerberos-aware versions of the telnet, ftp, rcp, rsh,
-and rlogin clients.  While these have been replaced by tools such as OpenSSH
-in most environments, they remain in use in others.
+%post servers
+/sbin/service xinetd reload > /dev/null 2>&1 || :
+exit 0
+
+%postun servers
+/sbin/service xinetd reload > /dev/null 2>&1 || :
+exit 0
+
+#----------------------------------------------------------------------------
 
 %prep
 %setup -q
@@ -165,58 +217,4 @@ for pam in \
 done
 
 %makeinstall_std
-
-%post servers
-/sbin/service xinetd reload > /dev/null 2>&1 || :
-exit 0
-
-%postun servers
-/sbin/service xinetd reload > /dev/null 2>&1 || :
-exit 0
-
-%files clients
-%doc README NOTICE LICENSE
-# Used by both clients and servers.
-%{_bindir}/rcp
-%{_mandir}/man1/rcp.1*
-
-# Client network bits.
-%{_bindir}/ftp
-%{_mandir}/man1/ftp.1*
-%{_bindir}/krlogin
-%{_bindir}/rlogin
-%{_mandir}/man1/rlogin.1*
-%{_bindir}/krsh
-%{_bindir}/rsh
-%{_mandir}/man1/rsh.1*
-%{_bindir}/telnet
-%{_mandir}/man1/telnet.1*
-%{_mandir}/man1/tmac.doc*
-
-%files servers
-%doc README NOTICE LICENSE
-%docdir %{_mandir}
-
-# Used by both clients and servers.
-#%{_bindir}/rcp
-#%{_mandir}/man1/rcp.1*
-
-%config(noreplace) %{_sysconfdir}/xinetd.d/*
-%config(noreplace) %{_sysconfdir}/pam.d/kshell
-%config(noreplace) %{_sysconfdir}/pam.d/ekshell
-%config(noreplace) %{_sysconfdir}/pam.d/gssftp
-
-# Login is used by telnetd and klogind.
-%{_sbindir}/login.krb5
-%{_mandir}/man8/login.krb5.8*
-
-# Application servers.
-%{_sbindir}/ftpd
-%{_mandir}/man8/ftpd.8*
-%{_sbindir}/klogind
-%{_mandir}/man8/klogind.8*
-%{_sbindir}/kshd
-%{_mandir}/man8/kshd.8*
-%{_sbindir}/telnetd
-%{_mandir}/man8/telnetd.8*
 
