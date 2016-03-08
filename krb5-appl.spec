@@ -4,7 +4,7 @@
 Summary:	Kerberos-aware versions of telnet, ftp, rsh, and rlogin
 Name:		krb5-appl
 Version:	1.0.3
-Release:	10.1
+Release:	11
 License:	MIT
 Url:		http://web.mit.edu/kerberos/www/
 Group:		System/Servers
@@ -95,7 +95,7 @@ in most environments, they remain in use in others.
 Summary:	Kerberos-aware telnet, ftp, rcp, rsh and rlogin servers
 Group:		System/Servers
 Requires:	xinetd
-Requires(post):	/sbin/service
+Requires(post):	initscripts
 Requires(post):	xinetd
 # transition with previous package
 %rename		telnet-server-krb5
