@@ -6,7 +6,7 @@ Name:		krb5-appl
 Version:	1.0.3
 Release:	13
 License:	MIT
-Url:		http://web.mit.edu/kerberos/www/
+Url:		https://web.mit.edu/kerberos/www/
 Group:		System/Servers
 # Maybe we should explode from the now-available-to-everybody tarball instead?
 # http://web.mit.edu/kerberos/dist/krb5-appl/1.0/krb5-appl-1.0-signed.tar
