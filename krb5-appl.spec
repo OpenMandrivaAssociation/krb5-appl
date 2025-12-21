@@ -41,6 +41,11 @@ Patch89:	krb5-appl-1.0.2-largefile.patch
 Patch160:	krb5-appl-1.0.2-pam.patch
 Patch161:	krb5-appl-1.0.2-manpaths.patch
 Patch162:	krb5-appl-1.0.3-fix-typedef.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	texinfo
